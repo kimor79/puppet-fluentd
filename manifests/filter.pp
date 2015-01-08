@@ -12,6 +12,7 @@ define fluentd::filter (
   $remove_tag_prefix  = '',
   $add_tag_suffix     = '',
   $remove_tag_suffix  = '',
+  $order              = undef,
 ) {
 
   if ($type == 'grep') {
@@ -30,6 +31,7 @@ define fluentd::filter (
     target  => "/etc/td-agent/config.d/${configfile}.conf",
     require => Class['Fluentd::Packages'],
     content => template('fluentd/filter.erb'),
+    order   => $order,
   }
 
 }
