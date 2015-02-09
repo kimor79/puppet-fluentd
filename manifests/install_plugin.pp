@@ -17,6 +17,7 @@ define fluentd::install_plugin (
     $plugin_type,
     $ensure      = 'present',
     $plugin_name = $name,
+    $source      = undef,
 ) {
     case $plugin_type {
         'file': {
@@ -30,6 +31,7 @@ define fluentd::install_plugin (
             fluentd::install_plugin::gem {
                 [$plugin_name]:
                     ensure => $ensure, 
+                    source => $source,
                     require => Class['Fluentd::Packages']
             }
         }
