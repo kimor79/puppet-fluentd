@@ -27,7 +27,7 @@ Puppet::Type.type(:package).provide :fluentgem, :parent => Puppet::Provider::Pac
       gem_list_command << "--remote"
     end
     if options[:source]
-      gem_list_command << "--source" << options[:source]
+      gem_list_command << "--clear-sources" << "--source" << options[:source]
     end
     if name = options[:justme]
       gem_list_command << "^" + name + "$"
@@ -97,7 +97,7 @@ Puppet::Type.type(:package).provide :fluentgem, :parent => Puppet::Provider::Pac
         raise Puppet::Error.new("puppet:// URLs are not supported as gem sources")
       else
         # interpret it as a gem repository
-        command << "--source" << "#{source}" << resource[:name]
+        command << "--clear-sources" << "--source" << "#{source}" << resource[:name]
       end
     else
       command << "--no-rdoc" << "--no-ri" << resource[:name]
