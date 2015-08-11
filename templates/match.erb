@@ -1,33 +1,33 @@
 <match <%= @pattern %>>
     type <%= @type %>
-    <%- if @type == 'copy' -%>
-        <%- @config.each do |outcopy| -%>
+<%- @config.sort_by{|key,val|key}.each do |key, val| -%>
+  <%- if @type == 'copy' && key == 'store' -%>
+    <%- val.each do |store| -%>
         <store>
-            <%- outcopy.sort_by{|key,val|key}.each do |key, val| -%>
-                <%- if key == 'servers' -%>
-                    <%- val.each do |server| -%>
-                        <server>
-                        <%- server.sort_by{|k,v|k}.each do |k,v| -%>
-                            <%= k %> <%= v %>
-                        <%- end -%>
-                    </server>
-                     <%- end -%>
-                <%- else -%>
-                <%= key %> <%= val %>
-                <%- end -%>
+      <%- store.sort_by{|k,v|k}.each do |k, v| -%>
+        <%- if k == 'servers' -%>
+          <%- v.each do |server| -%>
+            <server>
+            <%- server.sort_by{|sk,sv|sk}.each do |sk, sv| -%>
+              <%= k %> <%= v %>
             <%- end -%>
+            </server>
+          <%- end -%>
+        <%- else -%>
+          <%= k %> <%= v %>
+        <%- end -%>
+      <%- end -%>
         </store>
-        <%- end -%>
-    <%- else -%>
-        <%- @config.sort_by{|key,val|key}.each do |key, val| -%>
-        <%= key %> <%= val %>
-        <%- end -%>
-     <%- end -%>
-    <%- @servers.each do |server| -%>
-    <server>
-    <%- server.sort_by{|key,val|key}.each do |key, val| -%>
+    <%- end -%>
+  <%- else -%>
     <%= key %> <%= val %>
-    <%- end -%>
+  <%- end -%>
+<%- end -%>
+<%- @servers.each do |server| -%>
+    <server>
+  <%- server.sort_by{|key,val|key}.each do |key, val| -%>
+    <%= key %> <%= val %>
+  <%- end -%>
     </server>
-    <%- end -%>
+<%- end -%>
 </match>
